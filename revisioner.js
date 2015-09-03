@@ -234,6 +234,18 @@ var Revisioner = (function () {
                     'path': references[i]
                 });
             }
+            
+            // Allow the client to transform the file path reference
+            if (this.options.transformPathReference) {
+                references = this.Tool.get_reference_representations_absolute(fileCurrentReference, fileResolveReferencesIn);
+                for (var i = 0, length = references.length; i < length; i++) {
+                    var newPath = this.options.transformPathReference.call(this, references[i]);
+                    referenceGroupAbsolute.push({
+                        'file': this.files[path],
+                        'path': newPath
+                    });
+                }
+            }
 
         }
 
