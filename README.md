@@ -246,7 +246,42 @@ gulp.task('default', function () {
 
 });
 ```
+#### transformPathReference
+Specify a function to transform the reference path in the file content while fingerprinting. Useful in instances where the remote file path in the file is not as per the current structure.<br/>
+Type: `function (pathRefrence)`<br/>
+Default: `none`<br/>
 
+The function takes one arguments:
+  - `pathRefrence` - reference path of the remote file
+  
+```js
+gulp.task('default', function () {
+
+  var revAll = new RevAll({
+      transformPathReference: function (pathRefrence) {
+        /**
+         * Remove `/builds/assets` or `builds/assets/` from the references
+         */
+        var newPath = pathRefrence.replace(/(\/builds\/assets|builds\/assets\/)/, '');
+        
+        if(/fonts\//.test(pathRefrence)){
+          //Change the fonts path
+          newPath = pathRefrence.replace(/fonts\//, '../fonts/');
+        }else if(/images\//.test(pathRefrence)){
+          //Change the image path
+          newPath = pathRefrence.replace(/images\//, '../images/');
+        }
+        
+        return newPath;
+      }
+  });
+
+  gulp.src('dist/**')
+      .pipe(revAll.revision())
+      .pipe(gulp.dest('cdn'))
+
+});
+```
 #### transformPath
 Specify a function to transform the reference path. Useful in instances where the local file structure does not reflect what the remote file structure will be.<br/>
 Type: `function (rev, source, path)`<br/>
