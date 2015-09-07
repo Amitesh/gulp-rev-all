@@ -265,10 +265,10 @@ gulp.task('default', function () {
         var newPath = pathRefrence.replace(/(\/builds\/assets|builds\/assets\/)/, '');
         
         if(/fonts\//.test(pathRefrence)){
-          //Change the fonts path
+          // Change the fonts path
           newPath = pathRefrence.replace(/fonts\//, '../fonts/');
         }else if(/images\//.test(pathRefrence)){
-          //Change the image path
+          // Change the image path
           newPath = pathRefrence.replace(/images\//, '../images/');
         }
         
